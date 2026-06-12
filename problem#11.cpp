@@ -15,7 +15,7 @@ short int readLength()
     }
     return (short int)length;
 }
-short int readArray(float numbers[], short int length)
+void readArray(float numbers[], short int length)
 {
     cout << "=============================\n";
     for (short int i = 0; i < length; i++)
@@ -31,7 +31,6 @@ short int readArray(float numbers[], short int length)
             cin >> numbers[i];
         }
     }
-    return length;
 }
 float totalArray(float numbers[], short int length)
 {
