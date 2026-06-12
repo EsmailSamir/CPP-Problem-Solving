@@ -6,11 +6,11 @@ int readLength()
     double length;
     cout << "\nHow Many Marks: ";
     cin >> length;
-    while (cin.fail() || length != (int)length || length < 2)
+    while (cin.fail() || length != (int)length || length < 2 || length > 100)
     {
         cin.clear();
         cin.ignore(10000, '\n');
-        cout << "Wrong Value, Pleas Enter An Integer Value > 2 :\n"
+        cout << "Wrong Value, Pleas Enter An Integer Value 100 >= 2 :\n"
              << "How Many Marks: ";
         cin >> length;
     }
