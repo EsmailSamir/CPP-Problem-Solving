@@ -10,7 +10,7 @@ void readlength(float &height, float &width)
     {
         cin.clear();
         cin.ignore(10000, '\n');
-        cout << "Enter A Positev Numeric Value\n"
+        cout << "Enter A Positive Numeric Value\n"
              << "Enter Height: ";
         cin >> height;
         cout << "Enter Width: ";
