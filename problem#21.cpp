@@ -1,8 +1,9 @@
 #include <iostream>
 #include <cmath>
 using namespace std;
-void readCircumference(float &circumference)
+float readCircumference()
 {
+    float circumference;
     cout << "\nEnter Circumference: ";
     cin >> circumference;
     while (cin.fail() || circumference <= 0)
@@ -13,22 +14,21 @@ void readCircumference(float &circumference)
         cout << "Enter Circumference: ";
         cin >> circumference;
     }
+    return circumference;
 }
-float calculateCircleArea(const float circumference)
+float calculateCircleArea(const float &circumference)
 {
     const float PI = acos(-1);
-    float circleArea = pow(circumference, 2) / (4 * PI);
+    float circleArea = circumference * circumference / (4 * PI);
     return circleArea;
 }
-void printCircleArea(const float circleArea)
+void printCircleArea(const float &circleArea)
 {
     cout << "===========================\n"
          << "Circle Area = " << circleArea << '\n';
 }
 int main()
 {
-    float circumference;
-    readCircumference(circumference);
-    printCircleArea(calculateCircleArea(circumference));
+    printCircleArea(calculateCircleArea(readCircumference()));
     return 0;
 }

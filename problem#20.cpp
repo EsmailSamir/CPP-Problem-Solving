@@ -1,18 +1,20 @@
 #include <iostream>
 #include <cmath>
 using namespace std;
-void readSquareSide(float &squareSide)
+float readSquareSide()
 {
-    cout << "\nEnter SquareSide: ";
+    float squareSide;
+    cout << "Enter The SquareSide: ";
     cin >> squareSide;
     while (cin.fail() || squareSide <= 0)
     {
         cin.clear();
         cin.ignore(10000, '\n');
-        cout << "Enter A Positive Numeric Value\n";
-        cout << "Enter SquareSide: ";
+        cout << "Enter A Positive Numeric Value\n"
+             << "Enter The SquareSide: ";
         cin >> squareSide;
     }
+    return squareSide;
 }
 float calculateCircleArea(const float squareSide)
 {
@@ -23,12 +25,10 @@ float calculateCircleArea(const float squareSide)
 void printCircleArea(const float circleArea)
 {
     cout << "=======================\n"
-         << "Circle Area = " << circleArea << '\n';
+         << "Circle Area = " << circleArea;
 }
 int main()
 {
-    float squareSide;
-    readSquareSide(squareSide);
-    printCircleArea(calculateCircleArea(squareSide));
+    printCircleArea(calculateCircleArea(readSquareSide()));
     return 0;
 }
