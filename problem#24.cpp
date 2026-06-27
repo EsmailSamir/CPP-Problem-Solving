@@ -4,14 +4,15 @@ using namespace std;
 short int readAge()
 {
     short int age;
-    cout << "Enter Your age: ";
+    cout << "Enter Your Age: ";
     cin >> age;
-    while (cin.fail() || age <= 0 || age > 120)
+    while (cin.fail() || age <= 0 || age > 100)
     {
         cin.clear();
         cin.ignore(10000, '\n');
-        cout << "Enter A Positive Numeric (Value > 0)\n"
-             << "Enter The age: ";
+        cout << "\"Invlid Age\", Enter A Valid Age"
+             << "(18 <= Age <= 45)\n"
+             << "Enter The Age: ";
         cin >> age;
     }
     return age;
@@ -22,7 +23,7 @@ bool proccAge(short int age)
 }
 void printvallidation(bool validatation)
 {
-    cout << "=================================\n";
+    cout << "=======================\n";
     if (validatation)
     {
         cout << "Valid Age";
