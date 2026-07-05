@@ -2,34 +2,36 @@
 using namespace std;
 int readNumbers()
 {
-    float number;
+    int number;
     cout << "Enter An Integer Number: ";
     cin >> number;
-    while (cin.fail() || number != int(number))
+    while (cin.fail() || number < 2)
     {
         cin.clear();
         cin.ignore(10000, '\n');
-        cout << "Enter An Integer Numeric Value: ";
+        cout << "Enter An Integer Numeric Value >= 2: ";
         cin >> number;
     }
     return number;
 }
-string proccNumber(int number)
+bool testNumber(int number)
 {
-    for (short int i = 2; i < number; i++)
+    for (int i = 2; i <= number / 2; i++)
     {
-        if (number % i != 0)
-            return "NOT PRIME"; 
-        else
-            return "PRIME";
+        if (number % i == 0)
+            return false;
     }
+    return true;
 }
-void printResult(string result)
+void printResult(bool testPrime)
 {
-    cout << result;
+    if (testPrime)
+        cout << "PRIME";
+    else
+        cout << "NOT PRIME";
 }
 int main()
 {
-    printResult(proccNumber(readNumbers()));
+    printResult(testNumber(readNumbers()));
     return 0;
 }
