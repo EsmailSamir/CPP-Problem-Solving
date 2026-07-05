@@ -11,13 +11,13 @@ bool testPin(const string &pin)
 }
 void printBalance()
 {
-    cout << "Correct PIN,\n"
-         << "Your Balance Is: 7500";
+    cout << "\nCorrect PIN,\n"
+         << "Your Balance Is: 7500$\n";
 }
 int main()
 {
     string pin;
-    for (short int i = 2; i >= 0; i--)
+    while (true)
     {
         readPIN(pin);
         if (testPin(pin))
@@ -26,19 +26,7 @@ int main()
             break;
         }
         else
-        {
-            if (i == 0)
-            {
-                cout << "Wrong PIN,\n"
-                     << "Your Card Is Locked.\n";
-                break;
-            }
-            else
-            {
-                cout << "Wrong PIN,\n"
-                     << "You Have " << i << " Try...\n";
-            }
-        }
+            cout << "Wrong PIN, Try Again...\n";
     }
     return 0;
 }
