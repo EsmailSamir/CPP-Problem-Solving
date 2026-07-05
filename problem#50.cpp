@@ -25,20 +25,12 @@ int main()
             printBalance();
             break;
         }
+        if (i > 0)
+            cout << "Wrong PIN,\n"
+                 << "You Have " << i << " Try...\n";
         else
-        {
-            if (i == 0)
-            {
-                cout << "Wrong PIN,\n"
-                     << "Your Card Is Locked.\n";
-                break;
-            }
-            else
-            {
-                cout << "Wrong PIN,\n"
-                     << "You Have " << i << " Try...\n";
-            }
-        }
+            cout << "Wrong PIN,\n"
+                 << "Your Card Is Locked.\n";
     }
     return 0;
 }
