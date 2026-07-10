@@ -34,4 +34,4 @@ int main()
 {
     printResult(testNumber(readNumbers()));
     return 0;
-}
+} 
