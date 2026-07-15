@@ -14,7 +14,7 @@ int readNumber()
     }
     return number;
 }
-int sumDivisiors(int number)
+int sumDivisors(int number)
 {
     int sum = 0;
     for (int i = 1; i <= number / 2; i++)
@@ -26,14 +26,14 @@ int sumDivisiors(int number)
 }
 bool testPerfectNumber(int number)
 {
-    return (sumDivisiors(number) == number);
+    return (sumDivisors(number) == number);
 }
 void printPerfectNumber(int number, bool perfect)
 {
     if (perfect)
         cout << number << " IS A PERFECT NUMBER.";
     else
-        cout << number << " IS NOT PERFECT NUMBER.";
+        cout << number << " IS NOT A PERFECT NUMBER.";
 }
 int main()
 {
