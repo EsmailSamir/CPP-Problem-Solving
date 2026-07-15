@@ -1,22 +1,22 @@
 #include <iostream>
 using namespace std;
-long readNumber()
+long long readNumber()
 {
-    long number;
+    long long number;
     cout << "Enter A Number: ";
     cin >> number;
-    while (cin.fail() || number < 0 || cin.peek() != '\n' || number >= 100000000)
+    while (cin.fail() || number < 0 || cin.peek() != '\n' || number > 1000000000000000000)
     {
         cin.clear();
         cin.ignore(10000, '\n');
-        cout << "Enter An Integer Numeric Value [0:100,000,000]: ";
+        cout << "Enter An Integer Numeric Value [0:10^18]: ";
         cin >> number;
     }
     return number;
 }
-void printReversed(long number)
+void printReversed(long long number)
 {
-    cout << "============================\n";
+    cout << "=====================================\nReverse Is: \n";
     if (number == 0)
     {
         cout << '0';
@@ -24,7 +24,7 @@ void printReversed(long number)
     }
     while (number > 0)
     {
-        cout << number % 10 << '\n';
+        cout << number % 10;
         number /= 10;
     }
 }

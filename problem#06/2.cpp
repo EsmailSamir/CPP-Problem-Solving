@@ -5,7 +5,7 @@ long readNumber()
     long number;
     cout << "Enter A Number: ";
     cin >> number;
-    while (cin.fail() || number < 0 || cin.peek() != '\n' || number >= 100000000)
+    while (cin.fail() || cin.peek() != '\n' || number < 0 || 100000000 < number)
     {
         cin.clear();
         cin.ignore(10000, '\n');
@@ -14,22 +14,24 @@ long readNumber()
     }
     return number;
 }
-void printReversed(long number)
+int sumDigits(long number)
 {
-    cout << "============================\n";
-    if (number == 0)
-    {
-        cout << '0';
-        return;
-    }
+    int sum = 0;
     while (number > 0)
     {
-        cout << number % 10 << '\n';
+
+        sum += number % 10;
         number /= 10;
     }
+    return sum;
+}
+void printSum(const int sum)
+{
+    cout << "============================\nSum Of Digits = "
+         << sum << '\n';
 }
 int main()
 {
-    printReversed(readNumber());
+    printSum(sumDigits(readNumber()));
     return 0;
 }

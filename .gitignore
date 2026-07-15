@@ -1,2 +1,3 @@
+# Ignore all output folders and executables
+**/output/
 *.exe
-output/
