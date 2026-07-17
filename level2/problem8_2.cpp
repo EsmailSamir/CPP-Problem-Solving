@@ -5,8 +5,7 @@ long long readNumber()
     long long number;
     cout << "Enter A Number: \n";
     cin >> number;
-    while (cin.fail() || cin.peek() != '\n' 
-    || number < 0 || number > 1000000000000000000)
+    while (cin.fail() || cin.peek() != '\n' || number < 0 || number > 1000000000000000000)
     {
         cin.clear();
         cin.ignore(10000, '\n');
@@ -18,7 +17,7 @@ long long readNumber()
 short readDigit()
 {
     short digit;
-    cout << "Enter Any Digit: \n";
+    cout << "Enter Any Digit: ";
     cin >> digit;
     while (cin.fail() || cin.peek() != '\n' || digit < 0 || digit > 9)
     {
@@ -40,26 +39,23 @@ short countDigit(long long number, const short digit)
     while (number > 0)
     {
         if (number % 10 == digit)
-        {
             count++;
-        }
         number /= 10;
     }
     return count;
 }
 void printCountDigit(const short count, const short digit)
 {
+    cout << "=============================\n";
     if (count == 0)
     {
-        cout << "============================\n"
-             << "This Digit Is Not In Number.";
+        cout << "This Digit Is Not In Number.";
         return;
     }
-    string time = " Time.";
+    string time = " Time";
     if (count > 1)
-        time = " Times.";
-    cout << "==============================\n"
-         << "Digit " << digit << " Frequency is " << count << time;
+        time += 's';
+    cout << "Digit " << digit << " Frequency is " << count << time;
 }
 int main()
 {
