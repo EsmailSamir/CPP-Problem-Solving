@@ -5,7 +5,8 @@ long long readNumber()
     long long number;
     cout << "Enter A Number: ";
     cin >> number;
-    while (cin.fail() || number < 0 || cin.peek() != '\n' || number > 1000000000000000000)
+    while (cin.fail() || number < 0 || cin.peek() != '\n' 
+    || number > 1000000000000000000)
     {
         cin.clear();
         cin.ignore(10000, '\n');
