@@ -28,6 +28,6 @@ void printPattern(const short number)
 }
 int main()
 {
-    printInverted(readNumber());
+    printPattern(readNumber());
     return 0;
 }
