@@ -6,10 +6,11 @@ using namespace std;
 short readLength()
 {
     short length;
-    cout << "\n---Making A Random Array And Copy prime---\n\n"
+    cout << "\n---Making Two Random Arrays And Sum Them---\n\n"
          << "Enter length: ";
     cin >> length;
-    while (cin.fail() || cin.peek() != '\n' || length < 1 || 100 < length)
+    while (cin.fail() || cin.peek() != '\n' 
+        || length < 1 || 100 < length)
     {
         cin.clear();
         cin.ignore(100000000, '\n');
@@ -23,7 +24,6 @@ short limitsOfRandom(const short from, const short to)
 {
     return rand() % (to - from + 1) + from;
 }
-
 void createArray(short array[], const short length)
 {
     for (short i = 0; i < length; i++)
@@ -31,32 +31,15 @@ void createArray(short array[], const short length)
         array[i] = limitsOfRandom(1, 100);
     }
 }
-bool testPrimeNumber(const int number)
+void sumTwoArrays(const short array1[], const short length,
+                  const short array2[], short sumArrays[])
 {
-    if (number == 1)
-        return false;
-    for (int i = 2; i <= number / 2; i++)
-    {
-        if (number % i == 0)
-            return false;
-    }
-    return true;
-}
-short CopyArrayForPrimeNumber(const short array[],
-                              const short length, short primeArray[])
-{
-    short j = 0;
     for (short i = 0; i < length; i++)
     {
-        if (testPrimeNumber(array[i]))
-        {
-            primeArray[j] = array[i];
-            j++;
-        }
+        sumArrays[i] = array1[i] + array2[i];
     }
-    return j;
 }
-void printArray(short array[], short length)
+void printArrays(const short array[], const short length)
 {
     cout << "[";
     for (short i = 0; i < length; i++)
@@ -64,22 +47,25 @@ void printArray(short array[], short length)
         if (i < length - 1)
             cout << array[i] << ',';
         else
-
             cout << array[i] << "]\n";
     }
 }
 int main()
 {
     srand((unsigned)time(NULL));
-    short length = readLength(),
-          array[100], primeArray[100];
-    createArray(array, length);
+    short length = readLength(), array1[100],
+          array2[100], sumArrays[100];
+    createArray(array1, length);
     cout << "=================================================\n"
          << "Random Array (1): \n";
-    printArray(array, length);
+    printArrays(array1, length);
+    createArray(array2, length);
     cout << "=================================================\n"
-         << "Prime Numbers In Array : \n";
-    printArray(primeArray,
-               CopyArrayForPrimeNumber(array, length, primeArray));
+         << "Random Array (2): \n";
+    printArrays(array2, length);
+    sumTwoArrays(array1, length, array2, sumArrays);
+    cout << "=================================================\n"
+         << "Sum Of Two Arrays (3): \n";
+    printArrays(sumArrays, length);
     return 0;
 }
