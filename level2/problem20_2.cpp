@@ -2,16 +2,16 @@
 #include <cstdlib>
 #include <ctime>
 using namespace std;
-void printRandom(char from, char to)
+void printRandomBetween(char from, char to)
 {
     cout << char(rand() % (to - from + 1) + from) << '\n';
 }
 int main()
 {
     srand((unsigned)time(NULL));
-    printRandom('a', 'z');
-    printRandom('A', 'Z');
-    printRandom('!', '/');
-    printRandom('0', '9');
+    printRandomBetween('a', 'z');
+    printRandomBetween('A', 'Z');
+    printRandomBetween('!', '/');
+    printRandomBetween('0', '9');
     return 0;
 }
