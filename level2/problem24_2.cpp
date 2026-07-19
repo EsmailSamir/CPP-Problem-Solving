@@ -6,7 +6,7 @@ using namespace std;
 short readLength()
 {
     short length;
-    cout << "\n-------Making A Random Array-------\n\n"
+    cout << "\n-Making A Random Array And Read Max Number In-\n\n"
          << "Enter length: ";
     cin >> length;
     while (cin.fail() || cin.peek() != '\n' || length < 1 || 100 < length)
@@ -19,7 +19,7 @@ short readLength()
     }
     return length;
 }
-short limitsOfRandom(const short from, const short to)
+short limitsOfRandom(short from, short to)
 {
     return rand() % (to - from + 1) + from;
 }
@@ -29,6 +29,16 @@ void createArray(short array[], const short length)
     {
         array[i] = limitsOfRandom(1, 100);
     }
+}
+short maxNumberInArray(const short array[], const short length)
+{
+    short maxNumber = array[0];
+    for (short i = 1; i < length; i++)
+    {
+        if (array[i] > maxNumber)
+            maxNumber = array[i];
+    }
+    return maxNumber;
 }
 void printArray(const short array[], const short length)
 {
@@ -43,11 +53,17 @@ void printArray(const short array[], const short length)
             cout << array[i] << "]\n";
     }
 }
+void printMaxNumberInArray(const short maxNumber)
+{
+    cout << "========================================\n"
+         << "Max Number In Array = " << maxNumber << '\n';
+}
 int main()
 {
     srand((unsigned)time(NULL));
     short length = readLength(), array[100];
     createArray(array, length);
     printArray(array, length);
+    printMaxNumberInArray(maxNumberInArray(array, length));
     return 0;
 }
