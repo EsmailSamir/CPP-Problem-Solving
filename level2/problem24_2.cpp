@@ -53,10 +53,10 @@ void printArray(const short array[], const short length)
             cout << array[i] << "]\n";
     }
 }
-void printMaxNumberInArray(const short maxNumber)
+void printMaxNumberInArray(const short array[], const short length)
 {
     cout << "========================================\n"
-         << "Max Number In Array = " << maxNumber << '\n';
+         << "Max Number In Array = " << maxNumberInArray(array, length) << '\n';
 }
 int main()
 {
@@ -64,6 +64,6 @@ int main()
     short length = readLength(), array[100];
     createArray(array, length);
     printArray(array, length);
-    printMaxNumberInArray(maxNumberInArray(array, length));
+    printMaxNumberInArray(array, length);
     return 0;
 }
