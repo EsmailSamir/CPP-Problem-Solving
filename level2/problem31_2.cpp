@@ -39,7 +39,6 @@ void shuffleTheArray(const short array1[], const short length, short array2[])
         {
             isDuplicate = false;                   // نفترض إن الرقم سليم
             array2[i] = limitsOfRandom(1, length); // نخمن رقم
-
             // نفحص الأرقام السابقة فقط
             for (short j = 0; j < i; j++)
             {
