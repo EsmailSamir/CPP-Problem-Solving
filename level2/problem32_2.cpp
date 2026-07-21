@@ -6,10 +6,11 @@ using namespace std;
 short readLength()
 {
     short length;
-    cout << "\n-Making A Random Array And Read Minimum Number In-\n\n"
+    cout << "\n---Making A Random Array And Reverse It---\n\n"
          << "Enter length: ";
     cin >> length;
-    while (cin.fail() || cin.peek() != '\n' || length < 1 || 100 < length)
+    while (cin.fail() || cin.peek() != '\n'
+        || length < 1 || 100 < length)
     {
         cin.clear();
         cin.ignore(100000000, '\n');
@@ -19,7 +20,7 @@ short readLength()
     }
     return length;
 }
-short limitsOfRandom(short from, short to)
+short limitsOfRandom(const short from, const short to)
 {
     return rand() % (to - from + 1) + from;
 }
@@ -30,39 +31,37 @@ void createArray(short array[], const short length)
         array[i] = limitsOfRandom(1, 100);
     }
 }
-short minimumNumberInArray(const short array[], const short length)
+void reverseArray(const short array[],
+                  short array_Copy[], const short length)
 {
-    short minimumNumber = array[0];
-    for (short i = 1; i < length; i++)
+    for (short i = 0; i < length; i++)
     {
-        if (array[i] < minimumNumber)
-            minimumNumber = array[i];
+        array_Copy[i] = array[length - 1 - i];
     }
-    return minimumNumber;
 }
 void printArray(const short array[], const short length)
 {
-    cout << "========================================\n"
-         << "Random Array : [";
+    cout << " [";
     for (short i = 0; i < length; i++)
     {
         if (i < length - 1)
-            cout << array[i] << ',';
+            cout << array[i] << ", ";
         else
             cout << array[i] << "]\n";
     }
 }
-void printMinimumNumberInArray(const short array[], const short length)
-{
-    cout << "========================================\n"
-         << "Minimum Number In Array = " << minimumNumberInArray(array, length) << '\n';
-}
 int main()
 {
     srand((unsigned)time(NULL));
-    short length = readLength(), array[100];
+    short length = readLength(),
+          array[100], array_Copy[100];
     createArray(array, length);
+    cout << "========================================\n"
+         << "The Random Array:\n";
     printArray(array, length);
-    printMinimumNumberInArray(array, length);
+    reverseArray(array, array_Copy, length);
+    cout << "========================================\n"
+         << "Reverse Same Random Array:\n";
+    printArray(array_Copy, length);
     return 0;
 }
