@@ -53,12 +53,16 @@ void shuffleTheArray(const short array1[], const short length, short array2[])
 }
 void printArray(const short array[], const short length)
 {
+    cout << "[";
     for (short i = 0; i < length; i++)
     {
         if (i < length - 1)
-            cout << array[i] << ',';
+        {
+            cout << array[i] << ", ";
+            if ((i + 1) % 10 == 0)
+                cout << '\n';
+        }
         else
-
             cout << array[i] << "]\n";
     }
 }

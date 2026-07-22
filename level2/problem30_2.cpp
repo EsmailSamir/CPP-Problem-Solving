@@ -39,13 +39,17 @@ void sumTwoArrays(const short array1[], const short length,
         sumArrays[i] = array1[i] + array2[i];
     }
 }
-void printArrays(const short array[], const short length)
+void printArray(const short array[], const short length)
 {
     cout << "[";
     for (short i = 0; i < length; i++)
     {
         if (i < length - 1)
-            cout << array[i] << ',';
+        {
+            cout << array[i] << ", ";
+            if ((i + 1) % 10 == 0)
+                cout << '\n';
+        }
         else
             cout << array[i] << "]\n";
     }
@@ -58,14 +62,14 @@ int main()
     createArray(array1, length);
     cout << "=================================================\n"
          << "Random Array (1): \n";
-    printArrays(array1, length);
+    printArray(array1, length);
     createArray(array2, length);
     cout << "=================================================\n"
          << "Random Array (2): \n";
-    printArrays(array2, length);
+    printArray(array2, length);
     sumTwoArrays(array1, length, array2, sumArrays);
     cout << "=================================================\n"
          << "Sum Of Two Arrays (3): \n";
-    printArrays(sumArrays, length);
+    printArray(sumArrays, length);
     return 0;
 }
