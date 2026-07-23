@@ -44,8 +44,8 @@ void printArray(const short array[], const short length, const short numArray)
             cout << array[i] << "]\n";
     }
 }
-void makeCopyArray(const short array[],
-                   const short length, short copyArray[])
+void CopyArray(const short array[],
+               const short length, short copyArray[])
 {
     for (short i = 0; i < length; i++)
     {
@@ -59,7 +59,7 @@ int main()
           array[100], copyArray[100];
     createArray(array, length);
     printArray(array, length, 1);
-    makeCopyArray(array, length, copyArray);
+    CopyArray(array, length, copyArray);
     printArray(copyArray, length, 2);
     return 0;
 }

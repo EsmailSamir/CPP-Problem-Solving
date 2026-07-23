@@ -73,10 +73,9 @@ void printFoundIndex(const short number, const short index)
 {
     cout << "Number You Are Looking For Is: " << number << "\n\n";
     if (index > -1)
-        cout << "The Number Found At Position: " << index << '\n'
-             << "The Number Found It's Order: " << index + 1 << '\n';
+        cout << "Yes, The Number Is Found :-)\n";
     else
-        cout << "The Number Is Not Found :-(\n";
+        cout << "No, The Number Is Not Found :-(\n";
 }
 int main()
 {
