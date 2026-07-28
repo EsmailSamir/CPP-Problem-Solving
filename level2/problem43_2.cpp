@@ -31,8 +31,8 @@ void createArray(short array[], const short length)
 }
 short countEvenNumbers(const short array[], const short length)
 {
-    short even = 0;
-    for (short i = 0; i < length; i++)
+    short even = 0, i = 0;
+    for (i; i < length; i++)
     {
         if (array[i] % 2 == 0)
             even++;
@@ -62,7 +62,7 @@ void printResultCountEven(const short array[], const short length)
 int main()
 {
     srand((unsigned)time(NULL));
-    short array[100], length = readLength();
+    short length = readLength(), array[length];
     createArray(array, length);
     cout << "\n=======================================\n"
          << "Array Elements: \n";

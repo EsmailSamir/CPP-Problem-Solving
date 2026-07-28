@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <windows.h>
+#include "../som3aLib.h"
 using namespace std;
 enum enChoice
 {
@@ -10,40 +11,13 @@ enum enChoice
     paper = 2,
     scissor = 3
 };
-short readRound()
-{
-    short round;
-    cout << "Enter Round: ";
-    cin >> round;
-    while (cin.fail() || cin.peek() != '\n' || round < 1 || 10 < round)
-    {
-        cin.clear();
-        cin.ignore(100000000, '\n');
-        cout << "Enter A Positive Numeric Value [1, 10]\n"
-             << "Enter Round: ";
-        cin >> round;
-    }
-    return round;
-}
 short userChoice()
 {
     short user;
     cout << "Enter Your Choice: \n"
          << "(1)rock ,(2)paper ,(3)scissor: ";
     cin >> user;
-    while (cin.fail() || cin.peek() != '\n' || user < 1 || 3 < user)
-    {
-        cin.clear();
-        cin.ignore(100000000, '\n');
-        cout << "Enter Your Choice: \n"
-             << "(1)rock ,(2)paper ,(3)scissor: ";
-        cin >> user;
-    }
-    return user;
-}
-short limitsOfRandom(const short from, const short to)
-{
-    return rand() % (to - from + 1) + from;
+    return validation(user, 1, 3);
 }
 short computerChoice()
 {
@@ -101,16 +75,16 @@ int main()
     bool again;
     do
     {
-        short round = readRound(),
+        short round = readNumber(1, 10),
               equal = 0, user_c = 0, computer_c = 0;
         for (short i = 1; i <= round; i++)
         {
             system("color 07");
-            cout << "\nRound: " << i << '\n';
+            cout << "\n____________Round: " << i << " _____________\n";
             short user = userChoice(),
                   computer = computerChoice();
             cout << "=================================\n"
-                 << "Your Choice Is : " << resultOfChoice(user)
+                 << "Your  Choice  Is    : " << resultOfChoice(user)
                  << "\nComputer Choice Is: " << resultOfChoice(computer)
                  << "\n\n"
                  << printResultOfRound(user, computer, equal, user_c, computer_c)
@@ -123,14 +97,7 @@ int main()
              << "Do you Want To Play More:\n"
              << "(0)NO, (1)YES : ";
         cin >> again;
-        while (cin.fail() || cin.peek() != '\n' || again < 0 || 1 < again)
-        {
-            cin.clear();
-            cin.ignore(100000000, '\n');
-            cout << "Do you Want To Play More:\n"
-                 << "(0)NO, (1)YES : ";
-            cin >> again;
-        }
+        validation(again, 0, 1);
     } while (again);
     return 0;
 }
