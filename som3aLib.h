@@ -107,7 +107,7 @@ void readArray(short array[], const short length, const short from, const short 
 }
 
 bool checkIdentityMatrix3_3(const short matrix[][3],
-                         const short rows, const short columns)
+                            const short rows, const short columns)
 {
     for (short i = 0; i < rows; i++)
     {
@@ -121,3 +121,19 @@ bool checkIdentityMatrix3_3(const short matrix[][3],
     }
     return true;
 }
+
+short countNumInMatrix(const short matrix[][3], const short rows,
+                       const short columns, const short num)
+{
+    short count = 0;
+    for (short i = 0; i < rows; i++)
+    {
+        for (short j = 0; j < columns; j++)
+        {
+            if (matrix[i][j] == num)
+                count++;
+        }
+    }
+    return count;
+}
+

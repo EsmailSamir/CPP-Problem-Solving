@@ -1,2 +1,1 @@
-
-using namespace std;
+const short rows = 4, columns = 4;
