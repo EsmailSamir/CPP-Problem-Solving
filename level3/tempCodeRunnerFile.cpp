@@ -1,1 +1,2 @@
-rows / 2
+
+using namespace std;
