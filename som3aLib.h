@@ -105,3 +105,19 @@ void readArray(short array[], const short length, const short from, const short 
         readNumber(from, to);
     }
 }
+
+bool checkIdentityMatrix3_3(const short matrix[][3],
+                         const short rows, const short columns)
+{
+    for (short i = 0; i < rows; i++)
+    {
+        for (short j = 0; j < columns; j++)
+        {
+            if (i == j && matrix[i][j] != 1)
+                return false;
+            else if (i != j && matrix[i][j] != 0)
+                return false;
+        }
+    }
+    return true;
+}
