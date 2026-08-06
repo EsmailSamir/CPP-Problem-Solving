@@ -1,1 +1,1 @@
-const short rows = 4, columns = 4;
+cout << "1\t";

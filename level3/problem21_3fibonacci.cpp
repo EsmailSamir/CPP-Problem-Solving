@@ -6,14 +6,13 @@ void shifttingNumber(unsigned int &lastNum,
                      unsigned int &newNum)
 {
     newNum = lastNum + currentNum;
-    lastNum = currentNum;
-    currentNum = newNum;
+    currentNum = lastNum;
+    lastNum = newNum;
 }
 void printfibonaccy(const int length)
 {
     unsigned int lastNum = 0, currentNum = 1, newNum;
-    cout << "1\t";
-    for (short i = 1; i < length; i++)
+    for (short i = 0; i < length; i++)
     {
         shifttingNumber(lastNum, currentNum, newNum);
         cout << newNum << "\t";
