@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <limits>
 using namespace std;
 
 short readNumber(const short from, const short to)
@@ -10,7 +11,7 @@ short readNumber(const short from, const short to)
     while (cin.fail() || cin.peek() != '\n' || number < from || to < number)
     {
         cin.clear();
-        cin.ignore(100000000, '\n');
+        cin.ignore(std::numeric_limits<std::streamsize>::max(),L'\n');
         cout << "\nEnter A Positive Numeric Value["
              << from << ", " << to << "]:\n"
              << "Enter Number: ";
@@ -80,7 +81,7 @@ short validation(short number, const short from, const short to)
     while (cin.fail() || cin.peek() != '\n' || number < from || to < number)
     {
         cin.clear();
-        cin.ignore(100000000, '\n');
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), L'\n');
         cout << "\nEnter A Numeric Value["
              << from << ", " << to << "]:\n"
              << "Enter Number: ";
