@@ -34,12 +34,13 @@ void printFirstLetter(const wstring &text)
 {
     if (!text.empty())
     {
-        if (!iswspace(text[0]))
-            wcout << text[0] << L'\n';
-        for (size_t i = 0; i < text.length() - 1; i++)
+        wcout << L"\nThe First Letter Of All Words:\n";
+        bool firstLetter = true;
+        for (size_t i = 0; i < text.length(); i++)
         {
-            if (iswspace(text[i]) && !iswspace(text[i + 1]))
-                wcout << text[i + 1] << L'\n';
+            if (!iswspace(text[i]) && firstLetter)
+                wcout << text[i] << L'\n';
+            firstLetter = iswspace(text[i]);
         }
     }
 }
