@@ -17,8 +17,7 @@ void printfibonaccy(short length, unsigned int &lastNum,
 }
 int main()
 {
-    unsigned int lastNum = 0, currentNum = 1, newNum;
-    short length = readNumber(1, 47);
-    printfibonaccy(length, lastNum, currentNum, newNum);
+    unsigned int lastNum = 0, currentNum = 1, newNum = 0;
+    printfibonaccy(readNumber(1, 47), lastNum, currentNum, newNum);
     return 0;
 }

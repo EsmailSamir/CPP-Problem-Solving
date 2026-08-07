@@ -9,9 +9,9 @@ void shifttingNumber(unsigned int &lastNum,
     currentNum = lastNum;
     lastNum = newNum;
 }
-void printfibonaccy(const int length)
+void printfibonaccy(const short length)
 {
-    unsigned int lastNum = 0, currentNum = 1, newNum;
+    unsigned int lastNum = 0, currentNum = 1, newNum = 0;
     for (short i = 0; i < length; i++)
     {
         shifttingNumber(lastNum, currentNum, newNum);
@@ -20,7 +20,6 @@ void printfibonaccy(const int length)
 }
 int main()
 {
-    short length = readNumber(1, 47);
-    printfibonaccy(length);
+    printfibonaccy(readNumber(1, 47));
     return 0;
 }

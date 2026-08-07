@@ -65,13 +65,6 @@ string readName()
     string name;
     cout << "Enter Name: ";
     getline(cin, name);
-    while (cin.fail())
-    {
-        cin.clear();
-        cin.ignore(10000000, '\n');
-        cout << "Enter Name: ";
-        getline(cin, name);
-    }
     return name;
 }
 
@@ -136,4 +129,3 @@ short countNumInMatrix(const short matrix[][3], const short rows,
     }
     return count;
 }
-
