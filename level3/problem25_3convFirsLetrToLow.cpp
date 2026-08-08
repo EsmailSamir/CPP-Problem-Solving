@@ -30,16 +30,22 @@ wstring readText()
     }
     return text;
 }
-void printFirstLetter(const wstring &text)
+wstring convertFirstLetterToLowercase(wstring &text)
 {
-    wcout << L"\nThe First Letter Of All Words:\n";
     bool firstLetter = true;
     for (size_t i = 0; i < text.length(); i++)
     {
         if (!iswspace(text[i]) && firstLetter)
-            wcout << text[i] << L'\n';
+            text[i] = towlower(text[i]);
         firstLetter = iswspace(text[i]);
     }
+    return text;
+}
+void printLetterAfterConvert(const wstring &text)
+{
+    wcout << L"\nLetter After Convert First Letter To lowercase:\n"
+          << L"=================================================\n"
+          << text << L'\n';
 }
 int main()
 {
@@ -51,7 +57,7 @@ int main()
     // أمر لينكس وماك المرن
     setlocale(LC_ALL, "");
 #endif
-
-    printFirstLetter(readText());
+    wstring text = readText();
+    printLetterAfterConvert(convertFirstLetterToLowercase(text));
     return 0;
 }

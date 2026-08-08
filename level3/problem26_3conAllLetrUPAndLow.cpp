@@ -23,23 +23,33 @@ wstring readText()
     if (!getline(wcin, text))
     {
         wcin.clear();
-        wcin.ignore(
-            std::numeric_limits<std::streamsize>::max(),
-            L'\n');
+        wcin.ignore(std::numeric_limits<std::streamsize>::max(), L'\n');
         wcout << L"Input Is Canceled!...\n";
     }
     return text;
 }
-void printFirstLetter(const wstring &text)
+wstring convertLetterToUppercase(wstring &text)
 {
-    wcout << L"\nThe First Letter Of All Words:\n";
-    bool firstLetter = true;
     for (size_t i = 0; i < text.length(); i++)
     {
-        if (!iswspace(text[i]) && firstLetter)
-            wcout << text[i] << L'\n';
-        firstLetter = iswspace(text[i]);
+        text[i] = towupper(text[i]);
     }
+    return text;
+}
+wstring convertLetterToLowercase(wstring &text)
+{
+    if (!text.empty())
+    {
+        for (size_t i = 0; i < text.length(); i++)
+        {
+            text[i] = towlower(text[i]);
+        }
+    }
+    return text;
+}
+void printLetterAfterConvert(const wstring &text)
+{
+    wcout << text << L'\n';
 }
 int main()
 {
@@ -51,7 +61,11 @@ int main()
     // أمر لينكس وماك المرن
     setlocale(LC_ALL, "");
 #endif
-
-    printFirstLetter(readText());
+    wstring text = readText();
+    wcout << L"=================================================\n"
+          << L"\nAfter Convert All Letter To lowercase:\n";
+    printLetterAfterConvert(convertLetterToLowercase(text));
+    wcout << L"\nAfter Convert All Letter To Uppercase:\n";
+    printLetterAfterConvert(convertLetterToUppercase(text));
     return 0;
 }

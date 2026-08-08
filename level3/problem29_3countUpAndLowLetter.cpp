@@ -19,7 +19,7 @@ using std::wstring;
 wstring readText()
 {
     wstring text;
-    wcout << L"Enter Text: ";
+    wcout << L"Enter Text:\n";
     if (!getline(wcin, text))
     {
         wcin.clear();
@@ -30,15 +30,15 @@ wstring readText()
     }
     return text;
 }
-void printFirstLetter(const wstring &text)
+void countCases(const wstring &text, size_t &countLower,
+                size_t &countUpper)
 {
-    wcout << L"\nThe First Letter Of All Words:\n";
-    bool firstLetter = true;
     for (size_t i = 0; i < text.length(); i++)
     {
-        if (!iswspace(text[i]) && firstLetter)
-            wcout << text[i] << L'\n';
-        firstLetter = iswspace(text[i]);
+        if (iswlower(text[i]))
+            countLower++;
+        else if (iswupper(text[i]))
+            countUpper++;
     }
 }
 int main()
@@ -51,7 +51,12 @@ int main()
     // أمر لينكس وماك المرن
     setlocale(LC_ALL, "");
 #endif
-
-    printFirstLetter(readText());
+    wstring text = readText();
+    size_t countLower = 0, countUpper = 0;
+    countCases(text, countLower, countUpper);
+    wcout << L"\n=============================="
+          << L"\n        String Length = " << text.length()
+          << L"\nCapital Letters Count = " << countUpper
+          << L"\n  Small Letters Count = " << countLower << L'\n';
     return 0;
 }

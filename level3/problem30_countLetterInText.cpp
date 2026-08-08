@@ -19,7 +19,7 @@ using std::wstring;
 wstring readText()
 {
     wstring text;
-    wcout << L"Enter Text: ";
+    wcout << L"Enter Text:\n";
     if (!getline(wcin, text))
     {
         wcin.clear();
@@ -30,16 +30,29 @@ wstring readText()
     }
     return text;
 }
-void printFirstLetter(const wstring &text)
+wchar_t readLetter()
 {
-    wcout << L"\nThe First Letter Of All Words:\n";
-    bool firstLetter = true;
+    wchar_t letter;
+    wcout << L"\nEnter A Character: \n";
+    if (!(wcin >> letter))
+    {
+        wcin.clear();
+        wcin.ignore(
+            std::numeric_limits<std::streamsize>::max(),
+            L'\n');
+        wcout << L"Input Is Canceled!...\n";
+    }
+    return letter;
+}
+size_t countTheLetter(const wstring &text, const wchar_t letter)
+{
+    size_t count = 0;
     for (size_t i = 0; i < text.length(); i++)
     {
-        if (!iswspace(text[i]) && firstLetter)
-            wcout << text[i] << L'\n';
-        firstLetter = iswspace(text[i]);
+        if (text[i] == letter)
+            count++;
     }
+    return count;
 }
 int main()
 {
@@ -51,7 +64,10 @@ int main()
     // أمر لينكس وماك المرن
     setlocale(LC_ALL, "");
 #endif
-
-    printFirstLetter(readText());
+    wstring text = readText();
+    wchar_t letter = readLetter();
+    wcout << L"\n========================\n"
+          << L"Letter '" << letter << L"' Count = "
+          << countTheLetter(text, letter) << L'\n';
     return 0;
 }

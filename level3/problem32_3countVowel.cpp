@@ -16,11 +16,11 @@ using std::size_t;
 using std::wcin;
 using std::wcout;
 using std::wstring;
-wstring readText()
+wchar_t readLetter()
 {
-    wstring text;
-    wcout << L"Enter Text: ";
-    if (!getline(wcin, text))
+    wchar_t letter;
+    wcout << L"\nEnter Any Character: \n";
+    if (!(wcin >> letter))
     {
         wcin.clear();
         wcin.ignore(
@@ -28,18 +28,12 @@ wstring readText()
             L'\n');
         wcout << L"Input Is Canceled!...\n";
     }
-    return text;
+    return letter;
 }
-void printFirstLetter(const wstring &text)
+bool isVowel(const wchar_t letter)
 {
-    wcout << L"\nThe First Letter Of All Words:\n";
-    bool firstLetter = true;
-    for (size_t i = 0; i < text.length(); i++)
-    {
-        if (!iswspace(text[i]) && firstLetter)
-            wcout << text[i] << L'\n';
-        firstLetter = iswspace(text[i]);
-    }
+    const wstring arrayVowel = L"aAeEoOiIuU";
+    return arrayVowel.find(letter) != wstring::npos;
 }
 int main()
 {
@@ -52,6 +46,10 @@ int main()
     setlocale(LC_ALL, "");
 #endif
 
-    printFirstLetter(readText());
+    wchar_t letter = readLetter();
+    isVowel(letter) ? wcout << L"\nYes, Letter '"
+                            << letter << L"' Is A Vowel\n"
+                    : wcout << L"\nNo, Letter '"
+                            << letter << L"' Is Not A Vowel\n";
     return 0;
 }

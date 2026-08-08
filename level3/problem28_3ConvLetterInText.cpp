@@ -19,7 +19,7 @@ using std::wstring;
 wstring readText()
 {
     wstring text;
-    wcout << L"Enter Text: ";
+    wcout << L"Enter Text:\n";
     if (!getline(wcin, text))
     {
         wcin.clear();
@@ -30,16 +30,15 @@ wstring readText()
     }
     return text;
 }
-void printFirstLetter(const wstring &text)
+wstring convertAllLettersToAnotherCase(wstring text)
 {
-    wcout << L"\nThe First Letter Of All Words:\n";
-    bool firstLetter = true;
     for (size_t i = 0; i < text.length(); i++)
     {
-        if (!iswspace(text[i]) && firstLetter)
-            wcout << text[i] << L'\n';
-        firstLetter = iswspace(text[i]);
+        text[i] = iswlower(text[i])
+                      ? towupper(text[i])
+                      : towlower(text[i]);
     }
+    return text;
 }
 int main()
 {
@@ -51,7 +50,9 @@ int main()
     // أمر لينكس وماك المرن
     setlocale(LC_ALL, "");
 #endif
-
-    printFirstLetter(readText());
+    wstring text = readText();
+    wcout << L"\n========================================\n"
+          << L"After Convert All Letter To Anothercase:\n"
+          << convertAllLettersToAnotherCase(text);
     return 0;
 }
