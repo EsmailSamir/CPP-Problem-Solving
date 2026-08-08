@@ -32,8 +32,8 @@ wchar_t readLetter()
 }
 bool isVowel(const wchar_t letter)
 {
-    const wstring arrayVowel = L"aAeEoOiIuU";
-    return arrayVowel.find(letter) != wstring::npos;
+    const wstring arrayVowel = L"aeoiu";
+    return arrayVowel.find(towlower(letter)) != wstring::npos;
 }
 int main()
 {

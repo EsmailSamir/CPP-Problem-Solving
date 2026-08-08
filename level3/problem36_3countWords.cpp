@@ -33,23 +33,23 @@ wstring readText()
 size_t printAllWordInText(const wstring &text)
 {
     size_t countWords = 0;
-    bool firstWord = false;
+    bool isWord = false;
     wcout << L"\nThe Words In String:\n";
     for (size_t i = 0; i < text.length(); i++)
     {
         if (!iswspace(text[i]))
         {
-            wcout << text[i];
+            if (!isWord)
             {
                 countWords++;
-                firstWord = true;
+                isWord = true;
             }
+            wcout << text[i];
         }
-        else if (iswspace(text[i]) && (i + 1) < text.length() &&
-                 !iswspace(text[i + 1]) && firstWord)
+        else if (iswspace(text[i]) && isWord)
         {
             wcout << L'\n';
-            countWords++;
+            isWord = false;
         }
     }
     return countWords;

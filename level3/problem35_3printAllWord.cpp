@@ -30,9 +30,8 @@ wstring readText()
     }
     return text;
 }
-size_t printAllWordInText(const wstring &text)
+void printAllWordInText(const wstring &text)
 {
-    size_t countWords = 0;
     bool firstWord = false;
     wcout << L"\nThe Words In String:\n";
     for (size_t i = 0; i < text.length(); i++)
@@ -40,19 +39,12 @@ size_t printAllWordInText(const wstring &text)
         if (!iswspace(text[i]))
         {
             wcout << text[i];
-            {
-                countWords++;
-                firstWord = true;
-            }
+            firstWord = true;
         }
         else if (iswspace(text[i]) && (i + 1) < text.length() &&
                  !iswspace(text[i + 1]) && firstWord)
-        {
             wcout << L'\n';
-            countWords++;
-        }
     }
-    return countWords;
 }
 int main()
 {
@@ -64,7 +56,6 @@ int main()
     // أمر لينكس وماك المرن
     setlocale(LC_ALL, "");
 #endif
-    size_t countWords = printAllWordInText(readText());
-    wcout << L"\n\nCount Words In String = " << countWords;
+    printAllWordInText(readText());
     return 0;
 }

@@ -19,7 +19,7 @@ using std::wstring;
 wstring readText()
 {
     wstring text;
-    wcout << L"Enter Text: \n";
+    wcout << L"Enter Text:\n";
     if (!getline(wcin, text))
     {
         wcin.clear();
@@ -30,29 +30,20 @@ wstring readText()
     }
     return text;
 }
-size_t printAllWordInText(const wstring &text)
+bool isVowel(const wchar_t letter)
 {
-    size_t countWords = 0;
-    bool firstWord = false;
-    wcout << L"\nThe Words In String:\n";
+    const wstring arrayVowel = L"aeoiu";
+    return arrayVowel.find(towlower(letter)) != wstring::npos;
+}
+size_t countVowelLetters(const wstring &text)
+{
+    size_t vowel = 0;
     for (size_t i = 0; i < text.length(); i++)
     {
-        if (!iswspace(text[i]))
-        {
-            wcout << text[i];
-            {
-                countWords++;
-                firstWord = true;
-            }
-        }
-        else if (iswspace(text[i]) && (i + 1) < text.length() &&
-                 !iswspace(text[i + 1]) && firstWord)
-        {
-            wcout << L'\n';
-            countWords++;
-        }
+        if (isVowel(text[i]))
+            vowel++;
     }
-    return countWords;
+    return vowel;
 }
 int main()
 {
@@ -64,7 +55,8 @@ int main()
     // أمر لينكس وماك المرن
     setlocale(LC_ALL, "");
 #endif
-    size_t countWords = printAllWordInText(readText());
-    wcout << L"\n\nCount Words In String = " << countWords;
+    wstring text = readText();
+    wcout << L"\n==========================\nNumber Of Vowels Is : "
+          << countVowelLetters(text);
     return 0;
 }

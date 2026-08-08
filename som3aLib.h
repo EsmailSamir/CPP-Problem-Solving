@@ -130,3 +130,21 @@ short countNumInMatrix(const short matrix[][3], const short rows,
     }
     return count;
 }
+
+
+bool isVowel(const wchar_t letter)
+{
+    const wstring arrayVowel = L"aeoiu";
+    return arrayVowel.find(towlower(letter)) != wstring::npos;
+}
+
+size_t countVowelLetters(const wstring &text)
+{
+    size_t vowel = 0;
+    for (size_t i = 0; i < text.length(); i++)
+    {
+        if (isVowel(text[i]))
+            vowel++;
+    }
+    return vowel;
+}
