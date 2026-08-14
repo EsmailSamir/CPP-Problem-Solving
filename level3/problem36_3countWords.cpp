@@ -65,6 +65,6 @@ int main()
     setlocale(LC_ALL, "");
 #endif
     size_t countWords = printAllWordInText(readText());
-    wcout << L"\n\nCount Words In String = " << countWords;
+    wcout << L"\n\nCount Of Words In The String = " << countWords;
     return 0;
 }
