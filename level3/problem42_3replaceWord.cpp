@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
-#include <limits>
 using namespace std;
+
 string readText()
 {
     string originalText = "";
@@ -9,6 +9,7 @@ string readText()
     getline(cin, originalText);
     return originalText;
 }
+
 string readOldWord()
 {
     string oldWord = "";
@@ -16,6 +17,7 @@ string readOldWord()
     getline(cin, oldWord);
     return oldWord;
 }
+
 string readNewWord()
 {
     string newWord = "";
@@ -23,70 +25,41 @@ string readNewWord()
     getline(cin, newWord);
     return newWord;
 }
-bool isMatchCase()
-{
-    bool match;
-    cout << "\nDo you Want Match Cases:\n(0)No, (1)Yes: ";
-    cin >> match;
-    while (cin.fail() || match < 0 || 1 < match)
-    {
-        cin.clear();
-        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        cout << "\nDo you Want Match Cases:\n(0)No, (1)Yes: ";
-        cin >> match;
-    }
 
-    return match;
-}
-string myReplace(
-    const string &text, const size_t strart,
-    const size_t lengthOfOldWord, const string &newWord)
-{
-    return text.substr(0, strart) + newWord +
-           text.substr(strart + lengthOfOldWord);
-}
 string replaceWordInText(const string &originalText,
                          const string &oldWord,
                          const string &newWord)
 {
-    bool sameWord = true, match = isMatchCase();
+    bool sameWord = true;
     size_t k = 0;
     string editedText = originalText;
     if (!oldWord.empty())
     {
+
         for (size_t i = 0; i < editedText.length(); i++)
         {
-            bool same;
-            if (!match)
+
+            if (editedText[i] == oldWord[0])
             {
-                same = tolower(editedText[i]) == tolower(oldWord[0]);
-            }
-            else
-                same = editedText[i] == oldWord[0];
-            if (same)
-            {
+
                 k = i;
+
                 if (k + oldWord.length() <= editedText.length())
                 {
                     for (size_t j = 0; j < oldWord.length(); j++)
                     {
-                        if (match)
-                        {
-                            if (editedText[k] != oldWord[j])
-                                sameWord = false;
-                        }
-                        else if (tolower(editedText[k]) != tolower(oldWord[j]))
-                        {
+
+                        if (editedText[k] != oldWord[j])
                             sameWord = false;
-                        }
                         k++;
                     }
+
                     if (sameWord)
                     {
-                        editedText = myReplace(
-                            editedText, i, oldWord.length(), newWord);
-                        newWord.length() >= 1 ? i += newWord.length() - 1 : i--;
+                        editedText.replace(i, oldWord.length(), newWord);
+                        (newWord.length() >= 1) ? (i += newWord.length() - 1) : i--;
                     }
+
                     sameWord = true;
                 }
             }
@@ -94,12 +67,14 @@ string replaceWordInText(const string &originalText,
     }
     return editedText;
 }
+
 int main()
 {
     string originalText = readText(),
            oldWord = readOldWord(), newWord = readNewWord();
     string editedText = replaceWordInText(
         originalText, oldWord, newWord);
+
     cout << "\n=================================\n"
          << "The Text After Replace The Word:\n"
          << editedText;

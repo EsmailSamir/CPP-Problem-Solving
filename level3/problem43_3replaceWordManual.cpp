@@ -28,7 +28,7 @@ bool isMatchCase()
     bool match;
     cout << "\nDo you Want Match Cases:\n(0)No, (1)Yes: ";
     cin >> match;
-    while (cin.fail() || match < 0 || 1 < match)
+    while (cin.fail())
     {
         cin.clear();
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -39,11 +39,11 @@ bool isMatchCase()
     return match;
 }
 string myReplace(
-    const string &text, const size_t strart,
+    const string &text, const size_t start,
     const size_t lengthOfOldWord, const string &newWord)
 {
-    return text.substr(0, strart) + newWord +
-           text.substr(strart + lengthOfOldWord);
+    return text.substr(0, start) + newWord +
+           text.substr(start + lengthOfOldWord);
 }
 string replaceWordInText(const string &originalText,
                          const string &oldWord,
@@ -53,14 +53,11 @@ string replaceWordInText(const string &originalText,
     size_t k = 0;
     string editedText = originalText;
     if (!oldWord.empty())
-    {
         for (size_t i = 0; i < editedText.length(); i++)
         {
             bool same;
             if (!match)
-            {
                 same = tolower(editedText[i]) == tolower(oldWord[0]);
-            }
             else
                 same = editedText[i] == oldWord[0];
             if (same)
@@ -68,30 +65,30 @@ string replaceWordInText(const string &originalText,
                 k = i;
                 if (k + oldWord.length() <= editedText.length())
                 {
-                    for (size_t j = 0; j < oldWord.length(); j++)
+                    bool validLeft = (i == 0 || !isalpha(editedText[k - 1]));
+                    bool validRight = (i + oldWord.length() == editedText.length() ||
+                                       !isalpha(editedText[oldWord.length() + k]));
+                    if (validLeft && validRight)
                     {
-                        if (match)
+                        for (size_t j = 0; j < oldWord.length(); j++)
                         {
-                            if (editedText[k] != oldWord[j])
+                            if (match && editedText[k] != oldWord[j])
                                 sameWord = false;
+                            else if (tolower(editedText[k]) != tolower(oldWord[j]))
+                                sameWord = false;
+                            k++;
                         }
-                        else if (tolower(editedText[k]) != tolower(oldWord[j]))
-                        {
-                            sameWord = false;
-                        }
-                        k++;
                     }
                     if (sameWord)
                     {
                         editedText = myReplace(
                             editedText, i, oldWord.length(), newWord);
                         newWord.length() >= 1 ? i += newWord.length() - 1 : i--;
+                        sameWord = false;
                     }
-                    sameWord = true;
                 }
             }
         }
-    }
     return editedText;
 }
 int main()
