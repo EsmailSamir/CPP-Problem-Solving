@@ -61,6 +61,26 @@ bool testPrimeNumber(const int number)
     return true;
 }
 
+bool getMore()
+{
+    char more = ' ';
+    cout << "do you want to add more clients\n"
+         << "(n)No, (y)Yes : ";
+    cin >> more;
+    while (cin.fail() || (tolower(more) != 'y' && tolower(more) != 'n'))
+    {
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "do you want to add more clients\n"
+             << "(n)No, (y)Yes : ";
+        cin >> more;
+    }
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    if (tolower(more) == 'y')
+        return true;
+    return false;
+}
+
 string readName()
 {
     string name;
