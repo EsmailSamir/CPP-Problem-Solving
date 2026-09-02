@@ -16,7 +16,7 @@ stClientInfo readClientInformation()
     stClientInfo client;
     cout << "Enter New Client Data:\n\n"
          << "Enter Account Num: ";
-    getline(cin, client.accountNum);
+    getline(cin >> ws, client.accountNum);
     cout << "Enter PIN: ";
     getline(cin, client.pinCode);
     cout << "Enter Name: ";
@@ -29,7 +29,7 @@ stClientInfo readClientInformation()
     {
         cin.clear();
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        cout << "Wrong, Invalid Value...\n"
+        cout << "\n\"Wrong\", Invalid Value...\n"
              << "Enter Balance: ";
         cin >> client.balance;
     }
@@ -56,39 +56,47 @@ string recordDataOfClient(
 bool getMore()
 {
     char more = ' ';
-    cout << "do you want to add more clients\n"
+    cout << "\ndo you want to add more clients\n"
          << "(n)No, (y)Yes : ";
     cin >> more;
     while (cin.fail() || (tolower(more) != 'y' && tolower(more) != 'n'))
     {
         cin.clear();
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        cout << "do you want to add more clients\n"
+        cout << "\ndo you want to add more clients\n"
              << "(n)No, (y)Yes : ";
         cin >> more;
     }
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    if (tolower(more) == 'y')
+    return tolower(more) == 'y';
+}
+bool RecordDataToFile(const string &delimiter, fstream &clientsFile)
+{
+    if (clientsFile.is_open())
+    {
+        stClientInfo client = readClientInformation();
+        clientsFile << recordDataOfClient(client, delimiter)
+                    << '\n';
         return true;
+    }
     return false;
 }
 int main()
 {
+    string delimiter = readDelimiter();
+    size_t i = 1;
     fstream clientsFile;
     clientsFile.open("clients.txt", ios::out | ios::app);
-    if (clientsFile.is_open())
+    do
     {
-        string delimiter = readDelimiter();
-        size_t i = 1;
-        do
+        if (!RecordDataToFile(delimiter, clientsFile))
         {
-            stClientInfo client = readClientInformation();
-            clientsFile << recordDataOfClient(client, delimiter)
-                        << '\n';
-            cout << "\n\nClient Num(" << i << ") Added Successfully\n";
-            i++;
-        } while (getMore());
-        clientsFile.close();
-    }
+            cout << "Can Not Record To File";
+            break;
+        }
+        cout << "\nClient Number (" << i << ") Added Successfully\n";
+        i++;
+    } while (getMore());
+    clientsFile.close();
     return 0;
 }
