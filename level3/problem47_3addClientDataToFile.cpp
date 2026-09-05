@@ -36,13 +36,6 @@ stClientInfo readClientInformation()
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     return client;
 }
-string readDelimiter()
-{
-    string delimiter = "";
-    cout << "Enter The Delimiter: \n";
-    getline(cin, delimiter);
-    return delimiter;
-}
 string recordDataOfClient(
     const stClientInfo &client,
     const string &delimiter)
@@ -83,7 +76,7 @@ bool RecordDataToFile(const string &delimiter, fstream &clientsFile)
 }
 int main()
 {
-    string delimiter = readDelimiter();
+    string delimiter = " , ";
     size_t i = 1;
     fstream clientsFile;
     clientsFile.open("clients.txt", ios::out | ios::app);
