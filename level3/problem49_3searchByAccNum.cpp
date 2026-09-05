@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include <iomanip>
 using namespace std;
 struct stClientInfo
 {
@@ -12,19 +11,12 @@ struct stClientInfo
     string pinCode;
     float balance;
 };
-void printHeader(const size_t TotalClients)
+string readAccountNum()
 {
-    string count = '(' + to_string(TotalClients) + ") Client";
-    if (TotalClients != 1)
-        count += 's';
-    cout << right << setw(50) << count
-         << "\n-------------------------------------------------------------------------------------------\n"
-         << "| " << left << setw(15) << "Account Number"
-         << "| " << left << setw(10) << "Pin Code"
-         << "| " << left << setw(30) << "Client Name"
-         << "| " << left << setw(15) << "Phone"
-         << "| " << left << setw(10) << "Balance" << '|'
-         << "\n|-----------------------------------------------------------------------------------------|";
+    string accNum = "";
+    cout << "Enter Account Number: ";
+    getline(cin >> ws, accNum);
+    return accNum;
 }
 void splitLineToVector(vector<string> &vLineRecord,
                        const string &lineRecord,
@@ -113,25 +105,44 @@ vector<stClientInfo> fillVectorFromFile(
     }
     return vAccountsLine;
 }
-void printVectorOfAccounts(const vector<stClientInfo> &vAccountsLine)
+bool searchInVector(const vector<stClientInfo> &vAccountsLine,
+                    const string &accNum, stClientInfo &result)
 {
     for (const stClientInfo &client : vAccountsLine)
     {
-        cout << "\n| " << left << setw(15) << client.accountNum
-             << "| " << left << setw(10) << client.pinCode
-             << "| " << left << setw(30) << client.name
-             << "| " << left << setw(15) << client.phone
-             << "| " << left << setw(10) << client.balance << '|';
+        if (client.accountNum == accNum)
+        {
+            result = client;
+            return true;
+        }
     }
-    cout << "\n|-----------------------------------------------------------------------------------------|\n";
+    return false;
+}
+void printResultOfSearch(const vector<stClientInfo> &vAccountsLine,
+                         const string &accNum)
+{
+    stClientInfo result;
+    cout << "\n====================================================\n";
+    if (searchInVector(vAccountsLine, accNum, result))
+    {
+        cout << "The Following Are The Client Details:\n"
+             << "Account Num : " << result.accountNum << '\n'
+             << "Pin Code    : " << result.pinCode << '\n'
+             << "Client Name : " << result.name << '\n'
+             << "Phone Num   : " << result.phone << '\n'
+             << "Balance     : " << result.balance << endl;
+        return;
+    }
+    cout << "Client With Account Number ("
+         << accNum << ") Is Not Found.\n";
 }
 int main()
 {
-    const string fileName = "clients.txt";
-    const string separator = " , ";
+    const string fileName = "clients.txt",
+                 separator = " , ",
+                 accNum = readAccountNum();
     vector<stClientInfo> vAccountsLine =
         fillVectorFromFile(fileName, separator);
-    printHeader(vAccountsLine.size());
-    printVectorOfAccounts(vAccountsLine);
+    printResultOfSearch(vAccountsLine, accNum);
     return 0;
 }
