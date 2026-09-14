@@ -12,9 +12,9 @@ struct stClientInfo
     string phone;
     string accountNum;
     string pinCode;
-    float balance;
+    double balance;
 };
-enum enmainChoise
+enum enmainChoice
 {
     enPrintList = 1,
     enAddNewClient = 2,
@@ -24,7 +24,7 @@ enum enmainChoise
     enTransactions = 6,
     enExit = 7
 };
-enum enTransactionsChoise
+enum enTransactionsChoice
 {
     enDeposit = 1,
     enWithdraw = 2,
@@ -70,7 +70,7 @@ void splitLineToVector(vector<string> &vLineRecord,
             size_t m = i;
             for (size_t k = 0; k < separator.length(); k++)
             {
-                if (lineRecord[m] != separator[k])
+                if ((m < lineRecord.length()) && (lineRecord[m] != separator[k]))
                     same = false;
                 else
                     m++;
@@ -210,7 +210,7 @@ stClientInfo readClientInfo(const string &accNum)
     } while (client.phone.empty());
     cout << "Enter Balance : ";
     cin >> client.balance;
-    while (cin.fail())
+    while (cin.fail() || cin.peek() != '\n' || client.balance < 0)
     {
         cin.clear();
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -234,7 +234,7 @@ void deleteClient(vector<stClientInfo> &vClients,
 {
     vClients.erase(vClients.begin() + posOfClient);
 }
-bool reFillFileFromNewVector(vector<stClientInfo> &vClients,
+bool reFillFileFromNewVector(const vector<stClientInfo> &vClients,
                              const string &fileName, const string &separator)
 {
     fstream myFile;
@@ -276,19 +276,19 @@ void addNewClients(vector<stClientInfo> &vClients)
         client = readClientInfo(client.accountNum);
         vClients.push_back(client);
         if (reFillFileFromNewVector(vClients, fileName, separator))
-            cout << "\nThis New Client Has Been Added Successfuly.";
+            cout << "\nThis New Client Has Been Added Successfully.";
         else
-            cout << "\nThis File Can Not Open...";
-        cout << "Do you Want To Add Another Client ?";
+            cout << "\nThis File Can Not Open...\n";
+        cout << "Do you Want To Add Another Client (n)No, y(Yes) ?";
     } while (wantToDoThing());
 }
 void deleteClientInfo_main(vector<stClientInfo> &vClients)
 {
     size_t posOfClient = 0;
-    string accNum = readAccountNum();
     cout << "\n===========================================\n"
          << "               Delete Client Screen"
          << "\n===========================================\n";
+    string accNum = readAccountNum();
     if (searchInVector(vClients, accNum, posOfClient))
     {
         printResultOfSearch(vClients, posOfClient);
@@ -359,20 +359,20 @@ void deposit(vector<stClientInfo> &vClients)
     client.accountNum = readAccountNum();
     if (searchInVector(vClients, client.accountNum, posOfClient))
     {
-        printResultOfSearch(vClients, posOfClient);
         cout << "\n===========================================\n"
              << "              Deposit Screen"
-             << "\n===========================================\n"
-             << "Enter Deposit Amount: ";
+             << "\n===========================================\n";
+        printResultOfSearch(vClients, posOfClient);
+        cout << "\n\nEnter Deposit Amount: ";
         cin >> depositAmount;
-        while (cin.fail())
+        while (cin.fail() || cin.peek() != '\n' || depositAmount < 1)
         {
             cin.clear();
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            cout << "\nEnter A Numeric Value For Deposit Amount Amount: ";
+            cout << "\nEnter A Numeric Value For Deposit Amount > 0: ";
             cin >> depositAmount;
         }
-        cout << "Are You Sure You Want Perform This Transaction (y,n) ? ";
+        cout << "Are You Sure You Want Perform This Transaction (n)No, y(Yes) ? ";
         if (wantToDoThing())
         {
             vClients[posOfClient].balance += depositAmount;
@@ -384,14 +384,13 @@ void deposit(vector<stClientInfo> &vClients)
                 cout << "This File Can Not Open.";
         }
         else
-            cout << "This Transaction Is Fail.\n"
+            cout << "This Transaction Has Been Canceled.\n"
                  << "And Your Balance Is Same: "
                  << vClients[posOfClient].balance;
     }
     else
         cout << "\nClient With Account Number ("
-             << client.accountNum << ") Is Not Found.\n"
-             << "Please Enter Again";
+             << client.accountNum << ") Is Not Found.\n";
 }
 void withdraw(vector<stClientInfo> &vClients)
 {
@@ -407,7 +406,7 @@ void withdraw(vector<stClientInfo> &vClients)
         printResultOfSearch(vClients, posOfClient);
         cout << "\n\nEnter Withdraw Amount: ";
         cin >> withdrawAmount;
-        while (cin.fail() || (withdrawAmount > vClients[posOfClient].balance))
+        while (cin.fail() || cin.peek() != '\n' || (withdrawAmount > vClients[posOfClient].balance) || withdrawAmount < 1)
         {
             if (!(cin.fail()) && (withdrawAmount > vClients[posOfClient].balance))
             {
@@ -426,7 +425,7 @@ void withdraw(vector<stClientInfo> &vClients)
                 cin >> withdrawAmount;
             }
         }
-        cout << "\nAre You Sure You Want Perform This Transaction (y,n) ? ";
+        cout << "\nAre You Sure You Want Perform This Transaction (n)No, y(Yes) ? ";
         if (wantToDoThing())
         {
             vClients[posOfClient].balance -= withdrawAmount;
@@ -438,14 +437,13 @@ void withdraw(vector<stClientInfo> &vClients)
                 cout << "This File Can Not Open.";
         }
         else
-            cout << "This Transaction Is Fail.\n"
+            cout << "This Transaction Has Been Canceled.\n"
                  << "And Your Balance Is Same: "
                  << vClients[posOfClient].balance;
     }
     else
         cout << "\nClient With Account Number ("
-             << client.accountNum << ") Is Not Found.\n"
-             << "Please Enter Again";
+             << client.accountNum << ") Is Not Found.\n";
 }
 double countTotalBalances(const vector<stClientInfo> &vClients)
 {
@@ -456,9 +454,9 @@ double countTotalBalances(const vector<stClientInfo> &vClients)
     }
     return totalBalances;
 }
-void proccTransactions(vector<stClientInfo> &vClients, const enTransactionsChoise TransactionChoise)
+void proccTransactions(vector<stClientInfo> &vClients, const enTransactionsChoice TransactionChoice)
 {
-    switch (TransactionChoise)
+    switch (TransactionChoice)
     {
     case enDeposit:
         deposit(vClients);
@@ -468,27 +466,27 @@ void proccTransactions(vector<stClientInfo> &vClients, const enTransactionsChois
         break;
     case enTotalBalance:
         printList(vClients);
-        cout << "\t\t\t\tTotal balalnces = "
+        cout << "\t\t\t\tTotal balances = "
              << countTotalBalances(vClients);
         break;
     case enGoToMainMenu:
         return;
     }
 }
-enTransactionsChoise getChoiseFromTransactionsMenu()
+enTransactionsChoice getChoiceFromTransactionsMenu()
 {
-    short transactionChoise = 0;
+    short transactionChoice = 0;
     cout << "Choose What Do You Want To Do? [1, 4]? ";
-    cin >> transactionChoise;
-    while (cin.fail() || cin.peek() != '\n' || transactionChoise < enDeposit || enGoToMainMenu < transactionChoise)
+    cin >> transactionChoice;
+    while (cin.fail() || cin.peek() != '\n' || transactionChoice < enDeposit || enGoToMainMenu < transactionChoice)
     {
         cin.clear();
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         cout << "\nEnter A Numeric Value From [1 To 4]:\n"
-             << "Enter transactionChoise: ";
-        cin >> transactionChoise;
+             << "Enter transactionChoice: ";
+        cin >> transactionChoice;
     }
-    return enTransactionsChoise(transactionChoise);
+    return enTransactionsChoice(transactionChoice);
 }
 void printTransactionsMenu()
 {
@@ -501,11 +499,10 @@ void printTransactionsMenu()
          << "\t[4] Go To Main Menu.\n"
          << "===========================================\n";
 }
-void proccMainChoise(vector<stClientInfo> &vClients, const enmainChoise mainChoise)
+void proccMainChoice(vector<stClientInfo> &vClients, const enmainChoice mainChoice)
 {
-    string accNum = "";
-    enTransactionsChoise transactionChoise;
-    switch ((mainChoise))
+    enTransactionsChoice transactionChoice;
+    switch (mainChoice)
     {
     case enPrintList:
         printList(vClients);
@@ -527,34 +524,34 @@ void proccMainChoise(vector<stClientInfo> &vClients, const enmainChoise mainChoi
         {
             system("cls");
             printTransactionsMenu();
-            transactionChoise = getChoiseFromTransactionsMenu();
-            proccTransactions(vClients, transactionChoise);
-            if (transactionChoise != enGoToMainMenu)
+            transactionChoice = getChoiceFromTransactionsMenu();
+            proccTransactions(vClients, transactionChoice);
+            if (transactionChoice != enGoToMainMenu)
             {
                 cout << "\n\nPress Any Key To Go Back To Transaction Menu";
                 system("pause>0");
             }
-        } while (transactionChoise != enGoToMainMenu);
+        } while (transactionChoice != enGoToMainMenu);
         break;
     case enExit:
         cout << "\nThank You For Using Our Bank.\n";
         break;
     }
 }
-enmainChoise getChoiseFromMainMenu()
+enmainChoice getChoiceFromMainMenu()
 {
-    short mainChoise = 0;
+    short mainChoice = 0;
     cout << "Choose What Do You Want To Do? [1, 7]? ";
-    cin >> mainChoise;
-    while (cin.fail() || cin.peek() != '\n' || mainChoise < enPrintList || enExit < mainChoise)
+    cin >> mainChoice;
+    while (cin.fail() || cin.peek() != '\n' || mainChoice < enPrintList || enExit < mainChoice)
     {
         cin.clear();
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         cout << "\nEnter A Numeric Value From [1 To 7]:\n"
-             << "Enter mainChoise: ";
-        cin >> mainChoise;
+             << "Enter mainChoice: ";
+        cin >> mainChoice;
     }
-    return enmainChoise(mainChoise);
+    return enmainChoice(mainChoice);
 }
 void printMainMenu()
 {
@@ -573,23 +570,19 @@ void printMainMenu()
 int main()
 {
     vector<stClientInfo> vClients;
-    enmainChoise mainChoise;
-    if (fillVectorFromFile(vClients, fileName, separator))
+    enmainChoice mainChoice;
+    fillVectorFromFile(vClients, fileName, separator);
+    do
     {
-        do
+        system("cls");
+        printMainMenu();
+        mainChoice = getChoiceFromMainMenu();
+        proccMainChoice(vClients, mainChoice);
+        if (mainChoice != enTransactions && mainChoice != enExit)
         {
-            system("cls");
-            printMainMenu();
-            mainChoise = getChoiseFromMainMenu();
-            proccMainChoise(vClients, mainChoise);
-            if (mainChoise != enTransactions && mainChoise != enExit)
-            {
-                cout << "\nEnter Any Key To Go To Main Menu";
-                system("pause>0");
-            }
-        } while (mainChoise != enExit);
-    }
-    else
-        cout << "\nThis File Can Not Open...\n";
+            cout << "\nEnter Any Key To Go To Main Menu";
+            system("pause>0");
+        }
+    } while (mainChoice != enExit);
     return 0;
 }
