@@ -12,20 +12,6 @@ struct stClientInfo
     string pinCode;
     float balance;
 };
-void printHeader(const size_t TotalClients)
-{
-    string count = '(' + to_string(TotalClients) + ") Client";
-    if (TotalClients != 1)
-        count += 's';
-    cout << right << setw(50) << count
-         << "\n-------------------------------------------------------------------------------------------\n"
-         << "| " << left << setw(15) << "Account Number"
-         << "| " << left << setw(10) << "Pin Code"
-         << "| " << left << setw(30) << "Client Name"
-         << "| " << left << setw(15) << "Phone"
-         << "| " << left << setw(10) << "Balance" << '|'
-         << "\n|-----------------------------------------------------------------------------------------|";
-}
 void splitLineToVector(vector<string> &vLineRecord,
                        const string &lineRecord,
                        const string &separator)
@@ -113,8 +99,19 @@ vector<stClientInfo> fillVectorFromFile(
     }
     return vAccountsLine;
 }
-void printVectorOfAccounts(const vector<stClientInfo> &vAccountsLine)
+void printVectorOfAccounts(const vector<stClientInfo> &vAccountsLine, const size_t TotalClients)
 {
+    string count = '(' + to_string(TotalClients) + ") Client";
+    if (TotalClients != 1)
+        count += 's';
+    cout << right << setw(50) << count
+         << "\n-------------------------------------------------------------------------------------------\n"
+         << "| " << left << setw(15) << "Account Number"
+         << "| " << left << setw(10) << "Pin Code"
+         << "| " << left << setw(30) << "Client Name"
+         << "| " << left << setw(15) << "Phone"
+         << "| " << left << setw(10) << "Balance" << '|'
+         << "\n|-----------------------------------------------------------------------------------------|";
     for (const stClientInfo &client : vAccountsLine)
     {
         cout << "\n| " << left << setw(15) << client.accountNum
@@ -131,7 +128,6 @@ int main()
     const string separator = " , ";
     vector<stClientInfo> vAccountsLine =
         fillVectorFromFile(fileName, separator);
-    printHeader(vAccountsLine.size());
-    printVectorOfAccounts(vAccountsLine);
+    printVectorOfAccounts(vAccountsLine, vAccountsLine.size());
     return 0;
 }
