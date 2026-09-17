@@ -103,6 +103,8 @@ stClientInfo convertVectorToStruct(
         try
         {
             client.balance = stof(vLineRecord[4]);
+            if (client.balance < 0)
+                client.balance = 0;
         }
         catch (...)
         {
@@ -355,13 +357,13 @@ void deposit(vector<stClientInfo> &vClients)
 {
     stClientInfo client;
     size_t posOfClient = 0;
-    float depositAmount = 0;
+    double depositAmount = 0;
+    cout << "\n===========================================\n"
+         << "              Deposit Screen"
+         << "\n===========================================\n";
     client.accountNum = readAccountNum();
     if (searchInVector(vClients, client.accountNum, posOfClient))
     {
-        cout << "\n===========================================\n"
-             << "              Deposit Screen"
-             << "\n===========================================\n";
         printResultOfSearch(vClients, posOfClient);
         cout << "\n\nEnter Deposit Amount: ";
         cin >> depositAmount;
@@ -396,13 +398,13 @@ void withdraw(vector<stClientInfo> &vClients)
 {
     stClientInfo client;
     size_t posOfClient = 0;
-    float withdrawAmount = 0;
+    double withdrawAmount = 0;
+    cout << "\n===========================================\n"
+         << "              Withdraw Screen"
+         << "\n===========================================\n";
     client.accountNum = readAccountNum();
     if (searchInVector(vClients, client.accountNum, posOfClient))
     {
-        cout << "\n===========================================\n"
-             << "              Withdraw Screen"
-             << "\n===========================================\n";
         printResultOfSearch(vClients, posOfClient);
         cout << "\n\nEnter Withdraw Amount: ";
         cin >> withdrawAmount;
@@ -499,9 +501,25 @@ void printTransactionsMenu()
          << "\t[4] Go To Main Menu.\n"
          << "===========================================\n";
 }
-void proccMainChoice(vector<stClientInfo> &vClients, const enmainChoice mainChoice)
+void transactions(vector<stClientInfo> &vClients)
 {
     enTransactionsChoice transactionChoice;
+    do
+    {
+        system("cls");
+        printTransactionsMenu();
+        transactionChoice = getChoiceFromTransactionsMenu();
+        proccTransactions(vClients, transactionChoice);
+        if (transactionChoice != enGoToMainMenu)
+        {
+            cout << "\n\nPress Any Key To Go Back To Transaction Menu";
+            system("pause>0");
+        }
+    } while (transactionChoice != enGoToMainMenu);
+}
+void proccMainChoice(vector<stClientInfo> &vClients, const enmainChoice mainChoice)
+{
+
     switch (mainChoice)
     {
     case enPrintList:
@@ -520,18 +538,7 @@ void proccMainChoice(vector<stClientInfo> &vClients, const enmainChoice mainChoi
         findClient(vClients);
         break;
     case enTransactions:
-        do
-        {
-            system("cls");
-            printTransactionsMenu();
-            transactionChoice = getChoiceFromTransactionsMenu();
-            proccTransactions(vClients, transactionChoice);
-            if (transactionChoice != enGoToMainMenu)
-            {
-                cout << "\n\nPress Any Key To Go Back To Transaction Menu";
-                system("pause>0");
-            }
-        } while (transactionChoice != enGoToMainMenu);
+        transactions(vClients);
         break;
     case enExit:
         cout << "\nThank You For Using Our Bank.\n";
