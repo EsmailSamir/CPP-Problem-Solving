@@ -47,9 +47,9 @@ Date getSmallestDate(const Date date1, const Date date2)
 {
     return (date1.year < date2.year ? date1 : (date1.year > date2.year ? date2 : (date1.month < date2.month ? date1 : (date1.month > date2.month ? date2 : (date1.day < date2.day ? date1 : date2)))));
 }
-short countDaysInYear(const short Year)
+short countDaysInYear(const short year)
 {
-    return isLeapYear(Year) ? 366 : 365;
+    return isLeapYear(year) ? 366 : 365;
 }
 short DayOrderInYear(const Date currentDate)
 {
@@ -69,32 +69,32 @@ int countDaysInDate(const short startYear, const Date date)
     }
     return daysInYear + DayOrderInYear(date);
 }
-int differenceBetweenTwoDates(const Date date1, const Date date2)
+int differenceBetweenTwoDates(const Date BiggestDate, const Date smallestDate)
 {
-    Date smallestDate = getSmallestDate(date1, date2);
-    return countDaysInDate(smallestDate.year, getBiggestDate(date1, date2)) - countDaysInDate(smallestDate.year, smallestDate);
+    return countDaysInDate(smallestDate.year, BiggestDate) - countDaysInDate(smallestDate.year, smallestDate);
 }
 int main()
 {
-    Date twoDatesToCompare[2];
+    Date arrDates[2];
     for (short i = 0; i < 2; i++)
     {
-        cout << "\nEnter Date [" << i + 1 << "] :\n\n"
-             << "Enter Year [" << i + 1 << "] To Check  : ";
-        twoDatesToCompare[i].year = readNumber(1, 32600);
-        bool leapYear = isLeapYear(twoDatesToCompare[i].year);
+        cout << "Enter Date  [" << i + 1 << "] :\n"
+             << "Enter Year  [" << i + 1 << "] To Check : ";
+        arrDates[i].year = readNumber(1, 32600);
+        bool leapYear = isLeapYear(arrDates[i].year);
         cout << "Enter Month [" << i + 1 << "] To Check : ";
-        twoDatesToCompare[i].month = readNumber(1, 12);
-        cout << "Enter Day [" << i + 1 << "] To Check   : ";
-        twoDatesToCompare[i].day =
-            readNumber(1, countDaysInMonth(leapYear, twoDatesToCompare[i].month));
-        cout << "============================\n";
+        arrDates[i].month = readNumber(1, 12);
+        cout << "Enter Day   [" << i + 1 << "] To Check : ";
+        arrDates[i].day =
+            readNumber(1, countDaysInMonth(leapYear, arrDates[i].month));
+        cout << "==========================================\n";
     }
-    Date BiggestDate = getBiggestDate(twoDatesToCompare[0], twoDatesToCompare[1]);
-    int difference = differenceBetweenTwoDates(twoDatesToCompare[0], twoDatesToCompare[1]);
-    cout << "The Biggest Date Is      : "
-         << BiggestDate.year << "/" << BiggestDate.month << "/" << BiggestDate.day
-         << "\nDifference Between Both Is: "
-         << difference << "\nDifference Including End Day = " << difference + 1;
+    Date biggestDate = getBiggestDate(arrDates[0], arrDates[1]),
+         smallestDate = getSmallestDate(arrDates[0], arrDates[1]);
+    int difference = differenceBetweenTwoDates(biggestDate, smallestDate);
+    cout << "The Biggest Date Is          : "
+         << biggestDate.year << "/" << biggestDate.month << "/" << biggestDate.day
+         << "\nDifference Between Both Is   = "
+         << difference << "\nDifference Including End Day = " << difference + 1 << '\n';
     return 0;
 }
