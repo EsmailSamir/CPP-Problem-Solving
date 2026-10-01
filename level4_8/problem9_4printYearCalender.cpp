@@ -61,21 +61,27 @@ void printDaysNumInMonth(short currentDayOrder, const short daysInMonth)
             cout << '\t';
     }
 }
-int main()
+void printYearCalender()
 {
     cout << "=================================================\n"
-         << "                Month Calender\n"
+         << "                Year Calender\n"
          << "=================================================\n"
          << "Enter Year To Check  : ";
     short year = readNumber(1, 32600);
-    cout << "\nEnter Month To Check : ";
-    short month = readNumber(1, 12);
     bool leapYear = isLeapYear(year);
-    short daysInMonth = countDaysInMonth(leapYear, month);
-    short currentDayOrder = dayOrderInWeek(1, month, year);
-    cout << "\n======================= " << monthsArray[month - 1] << " =======================\n"
-         << "Sun" << "\tMon" << "\tTue" << "\tWed" << "\tThu" << "\tFri" << "\tSat\n";
-    printDaysNumInMonth(currentDayOrder, daysInMonth);
-    cout << "\n===================================================\n";
+    cout << "\n\n                Calender : " << year << '\n';
+    for (short i = 1; i <= 12; i++)
+    {
+        short daysInMonth = countDaysInMonth(leapYear, i);
+        short currentDayOrder = dayOrderInWeek(1, i, year);
+        cout << "\n======================= " << monthsArray[i - 1] << " =======================\n"
+             << "Sun" << "\tMon" << "\tTue" << "\tWed" << "\tThu" << "\tFri" << "\tSat\n";
+        printDaysNumInMonth(currentDayOrder, daysInMonth);
+        cout << "\n===================================================\n";
+    }
+}
+int main()
+{
+    printYearCalender();
     return 0;
 }
