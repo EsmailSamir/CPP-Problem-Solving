@@ -33,10 +33,10 @@ bool isLeapYear(const short year)
 {
     return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
 }
-short countDaysInMonth(const bool leapYear, const short month)
+short countDaysInMonth(const short year, const short month)
 {
     if (month == 2 || month == 4 || month == 6 || month == 9 || month == 11)
-        return month == 2 ? (leapYear ? 29 : 28) : 30;
+        return month == 2 ? (isLeapYear(year) ? 29 : 28) : 30;
     return 31;
 }
 bool TwoDateIsEqual(Date date1, Date date2)
@@ -56,7 +56,7 @@ int main()
         twoDatesToCompare[i].month = readNumber(1, 12);
         cout << "\nEnter Day [" << i + 1 << "] To Check   : ";
         twoDatesToCompare[i].day =
-            readNumber(1, countDaysInMonth(leapYear, twoDatesToCompare[i].month));
+            readNumber(1, countDaysInMonth(twoDatesToCompare[i].year, twoDatesToCompare[i].month));
     }
     cout << "=========================\n"
          << "The Two Date Is: "

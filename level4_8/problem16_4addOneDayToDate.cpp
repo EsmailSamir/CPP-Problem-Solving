@@ -33,16 +33,16 @@ bool isLeapYear(const short year)
 {
     return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
 }
-short countDaysInMonth(const bool leapYear, const short month)
+short countDaysInMonth(const short year, const short month)
 {
     if (month == 2 || month == 4 || month == 6 || month == 9 || month == 11)
-        return month == 2 ? (leapYear ? 29 : 28) : 30;
+        return month == 2 ? (isLeapYear(year) ? 29 : 28) : 30;
     return 31;
 }
 Date addOneDayToDate(Date newDate)
 {
     bool leapYear = isLeapYear(newDate.year);
-    short daysInMonth = countDaysInMonth(leapYear, newDate.month);
+    short daysInMonth = countDaysInMonth(newDate.year, newDate.month);
     if (newDate.day < daysInMonth)
         newDate.day++;
     else
@@ -70,7 +70,7 @@ int main()
     cout << "\nEnter Month To Check : ";
     currentDate.month = readNumber(1, 12);
     cout << "\nEnter Day To Check   : ";
-    currentDate.day = readNumber(1, countDaysInMonth(leapYear, currentDate.month));
+    currentDate.day = readNumber(1, countDaysInMonth(currentDate.year, currentDate.month));
     Date newDate = addOneDayToDate(currentDate);
     cout << "\n\nDate After Adding One Day Is : "
          << newDate.year << "/" << newDate.month << "/" << newDate.day << "\n";

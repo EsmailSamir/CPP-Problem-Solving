@@ -1,0 +1,91 @@
+#include <iostream>
+#include <limits>
+using namespace std;
+struct Date
+{
+    short year;
+    short month;
+    short day;
+};
+short readNumber(const short from, const short to)
+{
+    short Number = 0;
+    cin >> Number;
+    while (cin.fail() || cin.peek() != '\n' || Number < from || to < Number)
+    {
+        if (cin.fail() || cin.peek() != '\n')
+        {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+        else
+        {
+            cout << "\nEnter A Positive Numeric Value["
+                 << from << ", " << to << "]:\n";
+        }
+        cout << "Enter Number: ";
+        cin >> Number;
+    }
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    return Number;
+}
+bool isLeapYear(const short year)
+{
+    return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+}
+short countDaysInMonth(const short year, const short month)
+{
+    if (month == 2 || month == 4 || month == 6 || month == 9 || month == 11)
+        return month == 2 ? (isLeapYear(year) ? 29 : 28) : 30;
+    return 31;
+}
+short countDaysInYear(const short year)
+{
+    return isLeapYear(year) ? 366 : 365;
+}
+short DayOrderInYear(const Date currentDate)
+{
+    short totalDays = 0;
+    for (short i = 1; i < currentDate.month; i++)
+    {
+        totalDays += countDaysInMonth(isLeapYear(currentDate.year), i);
+    }
+    return totalDays + currentDate.day;
+}
+int countDaysInDate(const short startYear, const Date date)
+{
+    int daysInYear = 0;
+    for (short i = startYear; i < date.year; i++)
+    {
+        daysInYear += countDaysInYear(i);
+    }
+    return daysInYear + DayOrderInYear(date);
+}
+int differenceBetweenTwoDates(const Date date1, const Date date2)
+{
+    short startYear = (date2.year > date1.year ? date1.year : date2.year);
+    return countDaysInDate(startYear, date2) -
+           countDaysInDate(startYear, date1);
+}
+int main()
+{
+    Date arrDates[2];
+    for (short i = 0; i < 2; i++)
+    {
+        cout << "Enter Date  [" << i + 1 << "] :\n\n"
+             << "Enter Year  [" << i + 1 << "] To Check : ";
+        arrDates[i].year = readNumber(1, 32600);
+        cout << "Enter Month [" << i + 1 << "] To Check : ";
+        arrDates[i].month = readNumber(1, 12);
+        cout << "Enter Day   [" << i + 1 << "] To Check : ";
+        arrDates[i].day = readNumber(1, countDaysInMonth(arrDates[i].year, arrDates[i].month));
+        cout << "==========================================\n";
+    }
+    int difference = differenceBetweenTwoDates(arrDates[0], arrDates[1]);
+    cout << "\nDifference Between Both Is   = " << difference
+         << " Day" << ((difference != 1 && difference != -1) ? "s" : "")
+         << "\nDifference Including End Day = ";
+    difference += (difference > 0 ? 1 : (difference < 0 ? -1 : 0));
+    cout << difference << " Day" << ((difference != 1 && difference != -1) ? "s\n" : "\n");
+    return 0;
+}

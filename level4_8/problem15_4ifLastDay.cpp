@@ -33,10 +33,10 @@ bool isLeapYear(const short year)
 {
     return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
 }
-short countDaysInMonth(const bool leapYear, const short month)
+short countDaysInMonth(const short year, const short month)
 {
     if (month == 2 || month == 4 || month == 6 || month == 9 || month == 11)
-        return month == 2 ? (leapYear ? 29 : 28) : 30;
+        return month == 2 ? (isLeapYear(year) ? 29 : 28) : 30;
     return 31;
 }
 bool isLastDayInMonth(const short day, const short daysInMonth)
@@ -56,7 +56,7 @@ int main()
     cout << "\nEnter Month To Check : ";
     userDate.month = readNumber(1, 12);
     cout << "\nEnter Day To Check   : ";
-    short daysInMonth = countDaysInMonth(leapYear, userDate.month);
+    short daysInMonth = countDaysInMonth(userDate.year, userDate.month);
     userDate.day = readNumber(1, daysInMonth);
     cout << "=========================\n"
          << (isLastDayInMonth(userDate.day, daysInMonth) ? "Yes, It's Last Day In Month." : "No, It's Not Last Day In Month.")
