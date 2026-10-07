@@ -1,15 +1,18 @@
 #include <iostream>
 #include <limits>
 using namespace std;
+
 const string dayArray[7] =
     {"Sunday", "Monday", "Tuesday", "Wednesday",
      "Thursday", "Friday", "Saturday"};
+
 struct Date
 {
     short year;
     short month;
     short day;
 };
+
 short readNumber(const short from, const short to)
 {
     short Number = 0;
@@ -32,16 +35,19 @@ short readNumber(const short from, const short to)
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     return Number;
 }
+
 bool isLeapYear(const short year)
 {
     return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
 }
+
 short countDaysInMonth(const short year, const short month)
 {
     if (month == 2 || month == 4 || month == 6 || month == 9 || month == 11)
         return month == 2 ? (isLeapYear(year) ? 29 : 28) : 30;
     return 31;
 }
+
 short dayOrderInWeek(const Date &currentDate)
 {
     // Sakamoto's Algorithm - Calculates Day
@@ -50,6 +56,7 @@ short dayOrderInWeek(const Date &currentDate)
     short m = currentDate.month + (12 * a) - 2;
     return (currentDate.day + y + (y / 4) - (y / 100) + (y / 400) + ((31 * m) / 12)) % 7;
 }
+
 Date getStartVacationDate()
 {
     Date startDate;
@@ -62,6 +69,7 @@ Date getStartVacationDate()
     startDate.day = readNumber(1, countDaysInMonth(startDate.year, startDate.month));
     return startDate;
 }
+
 Date getEndVacationDate(const Date &startDate)
 {
     Date endDate;
@@ -77,11 +85,13 @@ Date getEndVacationDate(const Date &startDate)
                              countDaysInMonth(endDate.year, endDate.month));
     return endDate;
 }
+
 short countDaysInYear(const short year)
 {
     return isLeapYear(year) ? 366 : 365;
 }
-short dayOrderInYear(const Date &currentDate)
+
+short dayOrderInYear(const Date &currentDate) 
 {
     short totalDays = 0;
     for (short i = 1; i < currentDate.month; i++)
@@ -90,6 +100,7 @@ short dayOrderInYear(const Date &currentDate)
     }
     return totalDays + currentDate.day;
 }
+
 int countDaysInDate(const short startYear, const Date &date)
 {
     int daysInYear = 0;
@@ -99,11 +110,13 @@ int countDaysInDate(const short startYear, const Date &date)
     }
     return daysInYear + dayOrderInYear(date);
 }
+
 int differenceBetweenTwoDates(const Date &startDate, const Date &endDate)
 {
     return countDaysInDate(startDate.year, endDate) -
            countDaysInDate(startDate.year, startDate);
 }
+
 Date addDaysToDate(Date newDate, short daysToAdd)
 {
     while (daysToAdd > 0)
@@ -136,6 +149,7 @@ Date addDaysToDate(Date newDate, short daysToAdd)
     }
     return newDate;
 }
+
 short countWeekends(Date startDate, const short differenceTwoDates)
 {
     short count = 0, i = 0,
@@ -160,25 +174,30 @@ short countWeekends(Date startDate, const short differenceTwoDates)
     }
     return count;
 }
+
 void printDate(const Date &currentDate)
 {
     cout << currentDate.year << "/" << currentDate.month << "/" << currentDate.day;
 }
+
 int main()
 {
     Date startDate = getStartVacationDate();
     Date endDate = getEndVacationDate(startDate);
     int difference = differenceBetweenTwoDates(startDate, endDate);
+    
     cout << "===========================================\n"
          << "Vacation Start From : " << dayArray[dayOrderInWeek(startDate)] << " , ";
     printDate(startDate);
     cout << "\nVacation End To     : " << dayArray[dayOrderInWeek(endDate)] << " , ";
     printDate(endDate);
+    
     cout << "\n\nDifference Between Both Is   = " << difference
          << "\nDifference Including End Day = ";
     difference++;
     cout << difference
          << "\nVacation Actual Days Without Weekends = "
          << (difference - countWeekends(startDate, difference));
+         
     return 0;
 }
